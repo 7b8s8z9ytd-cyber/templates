@@ -1,0 +1,21 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { CustomerService } from "@/lib/services/customer";
+
+const { DB } = Astro.locals.runtime.env;
+
+const customerService = new CustomerService(DB);
+const customers = await customerService.getAll();
+
+import { CustomersTable } from '@/components/admin/customers-table';
+---
+
+<Layout title="Customers">
+  {customers.length ? (
+    <CustomersTable data={customers} />
+  ) : (
+    <p class="font-medium text-muted-foreground">
+      No customers yet. Create one using the API.
+    </p>
+  )}
+</Layout>

@@ -1,0 +1,19 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { SubscriptionService } from '@/lib/services/subscription';
+import { SubscriptionsTable } from '@/components/admin/subscriptions-table';
+
+const { DB } = Astro.locals.runtime.env;
+const subscriptionService = new SubscriptionService(DB);
+const subscriptions = await subscriptionService.getAll();
+---
+
+<Layout title="Subscriptions">
+  {subscriptions.length ? (
+    <SubscriptionsTable data={subscriptions} />
+  ) : (
+    <p class="font-medium text-muted-foreground">
+      No subscriptions yet. Create one using the API.
+    </p>
+  )}
+</Layout>
